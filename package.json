@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "publishConfig": {
-  "@victoria-shyika:registry": "https://npm.pkg.github.com",
-  "access": "public"
+   "publishConfig": {"registry": "https://registry.npmjs.org", "access": "public"}
 },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0"
