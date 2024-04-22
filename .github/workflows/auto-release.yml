@@ -36,6 +36,6 @@ jobs:
         run: |
           npm version patch # or npm version minor/major based on your versioning strategy
           VERSION=$(node -p "require('./package.json').version")
-          git push --follow-tags origin main
+          git push --follow-tags origin master
           echo "New version $VERSION released!"
 
