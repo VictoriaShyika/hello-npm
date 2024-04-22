@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Create Release
-        uses: Makepad-fr/auto-release-on-version-bump-action@test
+        uses: Makepad-fr/auto-release-on-version-bump-action
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
