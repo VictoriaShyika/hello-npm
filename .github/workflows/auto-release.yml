@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Create Release
-        uses:  Makepad-fr/auto-release-on-version-bump-actionp@master
+        uses:  Makepad-fr/auto-release-on-version-bump-action@master
         with:
           token: ${{ secrets.ACTIONS_TOKEN }}
           name: 'Release $newVersion'
