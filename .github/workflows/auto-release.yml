@@ -21,6 +21,10 @@ jobs:
           file-url: https://unpkg.com/@victoria-shyika/hello-npm/package.json
           static-checking: localIsNew
 
+      - name: Log when unchanged
+        if: steps.check.outputs.changed == 'false'
+        run: 'echo "No version change :/"'
+
 
       - name: 🎁 Create Tag and GitHub Release
         if: steps.version.outputs.changed == 'true'
