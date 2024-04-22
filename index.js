@@ -1,5 +1,5 @@
 const seyHello = function (name) {
-    console.log(`Hello ${name} from npm v 1.0.2!`)
+    console.log(`Hello ${name} from npm v 2.1.3!`)
 }
 module.exports = {
     seyHello
