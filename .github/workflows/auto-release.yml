@@ -6,36 +6,12 @@ on:
       - master
 
 jobs:
-  release:
+  create-release:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Create Release
+        uses: Makepad-fr/auto-release-on-version-bump-action@master
         with:
-          node-version: '20.x'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Check for version change
-        id: version_check
-        run: |
-          CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep package.json)
-          if [[ -n "$CHANGED" ]]; then
-            echo "::set-output name=version_changed::true"
-          else
-            echo "::set-output name=version_changed::false"
-          fi
-
-      - name: Bump version and create release
-        if: steps.version_check.outputs.version_changed == 'true'
-        run: |
-          npm version patch # or npm version minor/major based on your versioning strategy
-          VERSION=$(node -p "require('./package.json').version")
-          git push --follow-tags origin master
-          echo "New version $VERSION released!"
-
+          token: ${{ secrets.NPM_TOKEN }}
