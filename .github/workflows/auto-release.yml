@@ -7,6 +7,11 @@ on:
 jobs:
   version-check:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.version.outputs.changed }}
+      version: ${{ steps.version.outputs.version }}
+      last-tag: ${{ steps.changes.outputs.last-tag }}
+      log: ${{ steps.changes.outputs.log }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,5 +38,5 @@ jobs:
           tag_name: v${{  needs.version-check.outputs.version }}
           release_name: Release v${{  needs.version-check.outputs.version }}
           body: |
-            Changes since ${{  needs.version-check.changes.outputs.last-tag }}:
-            ${{  needs.version-check.changes.outputs.log }}
+            Changes since ${{ needs.version-check.outputs.last-tag }}:
+            ${{ needs.version-check.outputs.log }}
