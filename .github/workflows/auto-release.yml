@@ -5,17 +5,15 @@ on:
     branches:
       - test
 jobs:
-  version_check:
+  version-check:
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.version.outputs.changed }}
-      
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Check for Version Update
         id: version
         uses: EndBug/version-check@v2.1.4
@@ -23,19 +21,19 @@ jobs:
           file-url: https://unpkg.com/@victoria-shyika/hello-npm/package.json
           static-checking: localIsNew
           
-  release:
-      needs: version_check
-      if: needs.version_check.outputs.changed == 'true'
-      runs-on: ubuntu-latest
-      steps:
-        - name: Create Tag and GitHub Release
-          if:  needs.version_check.outputs.changed == 'true'
-          uses: actions/create-release@v1.1.4
-          env:
-            GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-          with:
-            tag_name: ${{  needs.version_check.outputs.changed }}
-            release_name: Release ${{  needs.version_check.outputs.changed }}
-            body: |
-              Changes since ${{ steps.changes.outputs.last-tag }}:
-              ${{ steps.changes.outputs.log }}
+  create-release:
+    needs: version-check
+    if: needs.version-check.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Tag and GitHub Release
+        if: needs.version-check.outputs.changed == 'true'
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          tag_name: v${{  needs.version-check.outputs.version }}
+          release_name: Release v${{  needs.version-check.outputs.version }}
+          body: |
+            Changes since ${{ steps.changes.outputs.last-tag }}:
+            ${{ steps.changes.outputs.log }}
