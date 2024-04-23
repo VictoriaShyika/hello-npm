@@ -5,7 +5,7 @@ on:
     branches:
       - test
 jobs:
-  version_check:
+  get_version:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,10 +21,12 @@ jobs:
           static-checking: localIsNew
           
   release:
-      needs: version_check
-      if: needs.version_check.outputs.changed == 'true'
+      needs: get_version
       runs-on: ubuntu-latest
       steps:
+        - name: Check if release is needed
+          run: echo "Release is not needed at this time."
+          if: needs.version_check.outputs.changed == 'false'
         - name: Create Tag and GitHub Release
           if: steps.version.outputs.changed == 'true'
           uses: actions/create-release@v1.1.4
