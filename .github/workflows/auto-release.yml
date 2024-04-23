@@ -22,6 +22,7 @@ jobs:
           
   release:
       needs: get_version
+      if: needs.version_check.outputs.changed == 'true'
       runs-on: ubuntu-latest
       steps:
         - name: Check if release is needed
