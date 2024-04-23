@@ -5,35 +5,33 @@ on:
     branches:
       - test
 jobs:
-  build:
+  version_check:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 🛎 Checkout
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 👀 Check for Version Update
+      - name: Check for Version Update
         id: version
         uses: EndBug/version-check@v2.1.4
         with:
           file-url: https://unpkg.com/@victoria-shyika/hello-npm/package.json
           static-checking: localIsNew
-
-      - name: Log when unchanged
-        if: steps.check.outputs.changed == 'false'
-        run: 'echo "No version change :/"'
-
-
-      - name: 🎁 Create Tag and GitHub Release
-        if: steps.version.outputs.changed == 'true'
-        uses: actions/create-release@v1.1.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-        with:
-          tag_name: ${{ steps.version.outputs.version }}
-          release_name: Release ${{ steps.version.outputs.version }}
-          body: |
-            Changes since ${{ steps.changes.outputs.last-tag }}:
-            ${{ steps.changes.outputs.log }}
+          
+  release:
+      needs: version_check
+      runs-on: ubuntu-latest
+      steps:
+        - name: Create Tag and GitHub Release
+          if: steps.version.outputs.changed == 'true'
+          uses: actions/create-release@v1.1.4
+          env:
+            GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          with:
+            tag_name: ${{ steps.version.outputs.version }}
+            release_name: Release ${{ steps.version.outputs.version }}
+            body: |
+              Changes since ${{ steps.changes.outputs.last-tag }}:
+              ${{ steps.changes.outputs.log }}
