@@ -22,6 +22,7 @@ jobs:
           
   release:
       needs: version_check
+      if: needs.version_check.outputs.changed == 'true'
       runs-on: ubuntu-latest
       steps:
         - name: Create Tag and GitHub Release
