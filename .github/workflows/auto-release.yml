@@ -37,4 +37,4 @@ jobs:
           release_name: Release v${{  needs.version-check.outputs.version }}
           body: |
             Changes since ${{ needs.version-check.changes.outputs.last-tag }}:
-            ${{ needs.version-check.changes.outputs.log }}
+            ${{ needs.version-check }}
