@@ -24,17 +24,15 @@ jobs:
           
   create-release:
     needs: version-check
+    if: needs.version-check.outputs.changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Create Tag and GitHub Release
+        if: needs.version-check.outputs.changed == 'true'
         uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
           tag_name: v${{  needs.version-check.outputs.version }}
           release_name: Release v${{  needs.version-check.outputs.version }}
-          body: |
-            Changes since ${{ needs.version-check.changes.outputs.last-tag }}:
-            ${{ needs.version-check }}
-          run: echo "${{ toJson(needs.version-check) }}" > version_check_output.json
 
