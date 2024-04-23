@@ -21,7 +21,7 @@ jobs:
           
   create-release:
     needs: version-check
-    if: steps.version.outputs.changed == 'true'
+    if: needs.version-check.outputs.changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Create Tag and GitHub Release
@@ -30,8 +30,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
-          tag_name: v${{steps.version.outputs.version}}
-          release_name: Release v${{steps.version.outputs.version}}
+          tag_name: v${{  needs.version-check.outputs.version }}
+          release_name: Release v${{  needs.version-check.outputs.version }}
           body: |
-            Changes since ${{ steps.changes.outputs.last-tag }}:
-            ${{ steps.changes.outputs.log }}
+            Changes since ${{  needs.version-check.changes.outputs.last-tag }}:
+            ${{  needs.version-check.changes.outputs.log }}
