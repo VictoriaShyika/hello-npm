@@ -19,15 +19,13 @@ jobs:
         with:
           file-url: https://unpkg.com/@victoria-shyika/hello-npm/package.json
           static-checking: localIsNew
+        if: ${{ needs.version_check.outputs.changed == 'true' }}
           
   release:
       needs: get_version
       if: needs.version_check.outputs.changed == 'true'
       runs-on: ubuntu-latest
       steps:
-        - name: Check if release is needed
-          run: echo "Release is not needed at this time."
-          if: needs.version_check.outputs.changed == 'false'
         - name: Create Tag and GitHub Release
           if: steps.version.outputs.changed == 'true'
           uses: actions/create-release@v1.1.4
