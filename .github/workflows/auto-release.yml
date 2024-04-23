@@ -5,8 +5,11 @@ on:
     branches:
       - test
 jobs:
-  get_version:
+  version_check:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.version.outputs.changed }}
+      
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,10 +22,9 @@ jobs:
         with:
           file-url: https://unpkg.com/@victoria-shyika/hello-npm/package.json
           static-checking: localIsNew
-        if: ${{ needs.version_check.outputs.changed == 'true' }}
           
   release:
-      needs: get_version
+      needs: version_check
       if: needs.version_check.outputs.changed == 'true'
       runs-on: ubuntu-latest
       steps:
@@ -37,3 +39,7 @@ jobs:
             body: |
               Changes since ${{ steps.changes.outputs.last-tag }}:
               ${{ steps.changes.outputs.log }}
+
+        - name: Release Skipped
+          if: needs.version_check.outputs.changed == 'false'
+          run: echo "\e[33mNo version change detected. Skipping release.\e[0m"
