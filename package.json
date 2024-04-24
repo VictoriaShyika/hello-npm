@@ -1,6 +1,6 @@
 {
   "name": "@victoria-shyika/hello-npm",
-  "version": "2.1.14",
+  "version": "2.1.15",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -8,7 +8,8 @@
     "url": "git+https://github.com/VictoriaShyika/hello-npm.git"
 },
   "publishConfig": {
-   "publishConfig": {"@victoria-shyika:registry": "https://npm.pkg.github.com", "access": "public"}
+   "@victoria-shyika:registry": "https://npm.pkg.github.com",
+    "access": "public"
 },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0"
