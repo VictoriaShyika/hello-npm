@@ -1,6 +1,6 @@
 {
   "name": "@victoria-shyika/hello-npm",
-  "version": "2.1.18",
+  "version": "2.1.19",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "git+https://github.com/VictoriaShyika/hello-npm.git"
 },
   "publishConfig": {
-   "registry": "https://npm.pkg.github.com",
+   
     "access": "public"
 },
   "scripts": {
