@@ -43,7 +43,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@victoria-shyika'
       - run: echo registry=https://npm.pkg.github.com/victoria-shyika >> .npmrc
-      - run: npm run build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.ACTIONS_TOKEN}}
